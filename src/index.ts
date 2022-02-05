@@ -1,4 +1,9 @@
-import { program } from 'commander';
+import { Command, program } from 'commander'
+import { Options as GenerateOptions, generateAction } from './commands/generate'
+
+export type GlobalOptions = {
+    verbose?: boolean;
+}
 
 program
     .name('json-server-generator')
@@ -11,7 +16,9 @@ program
 program
     .command('generate')
     .description('generate json-server project')
-    .action(() => {});
+    .action((_, command: Command) => {
+        const options = command.optsWithGlobals() as GenerateOptions
+        generateAction(options)
+    })
 
-
-program.parse();
+program.parse()
