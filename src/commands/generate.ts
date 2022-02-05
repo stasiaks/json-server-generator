@@ -10,5 +10,5 @@ export function generateAction(options: Options) {
     logVerbose('Executing ' + chalk.underline.redBright('generate') + ' action')
 
     const code = generateServerProgram()
-    console.log(code)
+    console.log(chalk.blackBright(code))
 }
