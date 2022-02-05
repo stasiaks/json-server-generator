@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "ESNext"
+        ],
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "removeComments": false,
+        "target": "ES6",
+        "esModuleInterop": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "paths": {},
+        "sourceMap": true,
+        "sourceRoot": "/",
+        "strict": true,
+        "allowUnreachableCode": false,
+        "noImplicitReturns": true,
+        "noUncheckedIndexedAccess": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true
+    },
+    "exclude": [
+        "./node_modules"
+    ]
+}

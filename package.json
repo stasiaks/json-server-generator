@@ -1,0 +1,35 @@
+{
+  "name": "json-server-generator",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node ./src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stasiaks/json-server-generator.git"
+  },
+  "keywords": [
+    "json-server",
+    "generator",
+    "mock"
+  ],
+  "author": "Sebastian Stasiak",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/stasiaks/json-server-generator/issues"
+  },
+  "homepage": "https://github.com/stasiaks/json-server-generator#readme",
+  "devDependencies": {
+    "@types/jest": "^27.4.0",
+    "jest": "^27.4.7",
+    "ts-jest": "^27.1.3",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "chalk": "^5.0.0",
+    "commander": "^9.0.0"
+  }
+}
