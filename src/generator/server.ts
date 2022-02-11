@@ -1,61 +1,43 @@
 import escodegen from 'escodegen'
-import * as SyntaxBase from './syntax/syntax'
-// import * as SyntaxDeclarations from './syntax/declarations'
-import * as SyntaxExpressions from './syntax/expressions'
-import * as SyntaxStatements from './syntax/statements'
+import { fsIdentifier, jsonServerIdentifier, middlewaresIdentifier, requireIdentifier, serverIdentifier } from './common-identifiers'
+import { consoleLogStatement } from './common-statements'
+import { Statement } from './syntax/statements'
 
-export function generateServerProgram(): string {
+export function generateServerProgram(port: number, hostname: string): string {
     const programSyntax = {
         type: 'Program',
         body: [
             ...baseConstants(),
             ...setDefaultMiddlewares(),
-            ...setListening()
+            ...setListening(port, hostname)
         ]
     }
 
     return escodegen.generate(programSyntax)
 }
 
-const jsonServerIdentifier: SyntaxBase.Identifier = {
-    type: 'Identifier',
-    name: 'jsonServer'
-}
-
-const serverIdentifier: SyntaxBase.Identifier = {
-    type: 'Identifier',
-    name: 'server'
-}
-
-const middlewaresIdentifier: SyntaxBase.Identifier = {
-    type: 'Identifier',
-    name: 'middlewares'
-}
-
-function consoleLogStatement(args: SyntaxExpressions.Expression[]): SyntaxStatements.ExpressionStatement {
-    return {
-        type: 'ExpressionStatement',
-        expression: {
-            type: 'CallExpression',
-            callee: {
-                type: 'MemberExpression',
-                computed: false,
-                object: {
-                    type: 'Identifier',
-                    name: 'console'
-                },
-                property: {
-                    type: 'Identifier',
-                    name: 'log'
-                }
-            },
-            arguments: args
-        }
-    }
-}
-
-function baseConstants(): SyntaxStatements.Statement[] {
+function baseConstants(): Statement[] {
     return [
+        {
+            type: 'VariableDeclaration',
+            declarations: [
+                {
+                    type: 'VariableDeclarator',
+                    id: fsIdentifier,
+                    init: {
+                        type: 'CallExpression',
+                        callee: requireIdentifier,
+                        arguments: [
+                            {
+                                type: 'Literal',
+                                value: 'fs'
+                            }
+                        ]
+                    }
+                },
+            ],
+            kind: 'const'
+        },
         {
             type: 'VariableDeclaration',
             declarations: [
@@ -64,10 +46,7 @@ function baseConstants(): SyntaxStatements.Statement[] {
                     id: jsonServerIdentifier,
                     init: {
                         type: 'CallExpression',
-                        callee: {
-                            type: 'Identifier',
-                            name: 'require'
-                        },
+                        callee: requireIdentifier,
                         arguments: [
                             {
                                 type: 'Literal',
@@ -128,7 +107,7 @@ function baseConstants(): SyntaxStatements.Statement[] {
     ]
 }
 
-function setDefaultMiddlewares(): SyntaxStatements.Statement[] {
+function setDefaultMiddlewares(): Statement[] {
     return [
         {
             type: 'ExpressionStatement',
@@ -175,7 +154,7 @@ function setDefaultMiddlewares(): SyntaxStatements.Statement[] {
     ]
 }
 
-function setListening(): SyntaxStatements.Statement[] {
+function setListening(port: number, hostname: string): Statement[] {
     return [
         {
             type: 'ExpressionStatement',
@@ -193,7 +172,11 @@ function setListening(): SyntaxStatements.Statement[] {
                 arguments: [
                     {
                         type: 'Literal',
-                        value: 3000
+                        value: port
+                    },
+                    {
+                        type: 'Literal',
+                        value: hostname
                     },
                     {
                         type: 'ArrowFunctionExpression',
