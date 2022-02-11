@@ -20,7 +20,7 @@ export const serverIdentifier: Identifier = {
     name: 'server'
 }
 
-export const middlewaresIdentifier: Identifier = {
+export const discardIdentifier: Identifier = {
     type: 'Identifier',
-    name: 'middlewares'
+    name: '_'
 }

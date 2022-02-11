@@ -1,7 +1,9 @@
 import escodegen from 'escodegen'
-import { fsIdentifier, jsonServerIdentifier, middlewaresIdentifier, requireIdentifier, serverIdentifier } from './common-identifiers'
+import { fsIdentifier, jsonServerIdentifier, requireIdentifier, serverIdentifier } from './common-identifiers'
 import { consoleLogStatement } from './common-statements'
+import { responseMiddleware } from './response-middleware'
 import { Statement } from './syntax/statements'
+import { Identifier } from './syntax/syntax'
 
 export function generateServerProgram(port: number, hostname: string): string {
     const programSyntax = {
@@ -9,11 +11,17 @@ export function generateServerProgram(port: number, hostname: string): string {
         body: [
             ...baseConstants(),
             ...setDefaultMiddlewares(),
+            ...responseMiddleware(),
             ...setListening(port, hostname)
         ]
     }
 
     return escodegen.generate(programSyntax)
+}
+
+const middlewaresIdentifier: Identifier = {
+    type: 'Identifier',
+    name: 'middlewares'
 }
 
 function baseConstants(): Statement[] {
